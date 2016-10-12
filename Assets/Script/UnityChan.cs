@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum CHAR_STATE {  NONE=-1, IDLE=0, RUN, ATTACK }
+public enum CHAR_STATE {  NONE=-1, IDLE=0, RUN, ATTACK, DAMAGE }
 
 public class UnityChan : MonoBehaviour {
 
@@ -10,7 +10,25 @@ public class UnityChan : MonoBehaviour {
 	private CHAR_STATE state;
 	private float speed;
 	private int atk_numeric;
+	private Rigidbody rigid;
 
+	void OnCollisionEnter(Collision col)
+	{
+		if (col.transform.name.Equals("Crash_Obstacle"))
+		{
+			if (state == CHAR_STATE.RUN)
+			{
+				anim.SetBool("is_run", false);
+				anim.SetTrigger("is_damage");
+				state = CHAR_STATE.DAMAGE;
+			}
+		}
+	}
+
+	void OnCollisionExit(Collision col)
+	{
+		rigid.isKinematic = true;
+	}
 	void Awake()
 	{
 		anim = GetComponent<Animator>();
@@ -84,6 +102,9 @@ public class UnityChan : MonoBehaviour {
 					state = CHAR_STATE.IDLE;
 				}
 				Add_Pos(move_pos * speed * Time.deltaTime);
+
+				if (rigid.isKinematic == true)
+					rigid.isKinematic = false;
 				break;
 
 			case CHAR_STATE.ATTACK:
@@ -91,6 +112,11 @@ public class UnityChan : MonoBehaviour {
 				{
 					state = CHAR_STATE.IDLE;
 				}
+				break;
+
+			case CHAR_STATE.DAMAGE:
+				if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+					state = CHAR_STATE.IDLE;
 				break;
 
 			case CHAR_STATE.NONE:
