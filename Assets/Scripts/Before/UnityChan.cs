@@ -3,7 +3,7 @@ using System.Collections;
 
 public enum CHAR_STATE {  NONE=-1, IDLE=0, RUN, ATTACK, DAMAGE }
 
-public class UnityChan : MonoBehaviour {
+public class UnityChans : MonoBehaviour {
 
 	private Animator anim;
 	private Vector3 goal_pos;
