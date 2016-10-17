@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(Animator))]
+	//수정일: 2016년 10월 17일-----------//
 
+[RequireComponent(typeof(Animator))]
 public class Player : Entity
 {
 	protected override void Recovery()
@@ -193,6 +194,22 @@ public class Player : Entity
 	{
 		Ray ray;
 		RaycastHit hit;
+
+		if (Input.GetMouseButton(0))
+		{
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			if (Physics.Raycast(ray, out hit))
+			{
+				var entity = hit.transform.GetComponent<Entity>() as Entity;
+				if (entity)
+				{
+					_target = entity;
+				}
+				else
+					_target = null;
+			}
+		}
+
 
 		if (Input.GetMouseButtonDown(1))
 		{
