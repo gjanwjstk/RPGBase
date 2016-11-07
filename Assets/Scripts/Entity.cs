@@ -115,6 +115,9 @@ public abstract class Entity : MonoBehaviour
 
 		InvokeRepeating("Recovery", 1.0f, 1.0f);
 	}
-	//특정 시간에 한번씩 반복 호출
-	//InvokeRepeating(호출함수명, 최초실행 
+    //특정 시간에 한번씩 반복 호출
+    //InvokeRepeating(호출함수명, 최초실행)
+    public void Add_Pos(Vector3 p) { transform.position += p; }
+    public void Set_Pos(Vector3 p) { transform.position = p; }
+    public Vector3 Get_Pos() { return transform.position; }
 }

@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-	//수정일: 2016년 10월 17일-----------//
-
 public class Enemy : Entity
 {
 	protected override void Recovery()
@@ -115,7 +113,42 @@ public class Enemy : Entity
 	void Awake()
 	{
 		base.Init();
-
 		_state = ENTITY_STATE.IDLE;
 	}
+    [SerializeField]
+    Animator anim;
+
+    Target targetMark;
+    public void Hit_Physics_Damage(Player _player)
+    {
+        anim.Play(null);
+        anim.Play("Hit_Front");
+        _state = ENTITY_STATE.HIT;
+
+        HP -= _player.Physice_Damage - Physice_Defense;
+        if (HP <= 0)
+        {
+            _player.Exp += _lv * 30;
+
+            if (targetMark == null)
+                targetMark = GameObject.Find("TargetMark").GetComponent<Target>();
+            targetMark.Target_Off();
+            targetMark.transform.SetParent(null);
+            Destroy(gameObject);
+        }
+    }
+    void Update()
+    {
+        Update_Actions();
+    }
+    void Update_Actions()
+    {
+        switch (_state)
+        {
+            case ENTITY_STATE.HIT:
+                if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_Base"))
+                    _state = ENTITY_STATE.IDLE;
+                break;
+        }
+    }
 }

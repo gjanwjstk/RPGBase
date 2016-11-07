@@ -123,7 +123,8 @@ public class Player : Entity
 	[Header("Experience")]
 	[SerializeField]
 	long _exp;
-	public long Exp
+    [SerializeField] Target targetMark;
+    public long Exp
 	{
 		get { return _exp; }
 		set
@@ -201,12 +202,40 @@ public class Player : Entity
 			if (Physics.Raycast(ray, out hit))
 			{
 				var entity = hit.transform.GetComponent<Entity>() as Entity;
-				if (entity)
-				{
+				if (entity && (entity !=this))
+                {
+                    if (_target == entity)
+                    {
+                        if (Vector3.Distance(_target.Get_Pos(),Get_Pos()) >=0.85f)
+                        {
+                            if (Input.GetKey(KeyCode.LeftShift))
+                            {
+                                move_speed = .5f;
+                                anim.Play("Run_SilentWalk");
+                            }
+                            else
+                            {
+                                move_speed = 3.0f;
+                                anim.Play("Run_Base");
+                            }
+                            _state = ENTITY_STATE.MOVE;
+                            goal_pos = _target.Get_Pos();
+                        }
+                        else
+                        {
+                            Base_Attack();
+                        }
+                        transform.localRotation = Quaternion.LookRotation(_target.Get_Pos() - Get_Pos());
+                        return;
+                    }
 					_target = entity;
+                    targetMark.Target_On(_target.Get_Pos());
+                    targetMark.transform.SetParent(_target.transform);
 				}
-				else
-					_target = null;
+				//else
+				//_target = null;
+    //            targetMark.Target_Off();
+    //            targetMark.transform.SetParent(null);
 			}
 		}
 
@@ -293,7 +322,19 @@ public class Player : Entity
 				break;
 		}
 	}
-	public void Add_Pos(Vector3 p) { transform.position += p; }
-	public void Set_Pos(Vector3 p) { transform.position = p; }
-	public Vector3 Get_Pos() { return transform.position; }
+    public void Base_Attack()
+    {
+        anim.Play("Attack_Base");
+        _state = ENTITY_STATE.ATTACK;
+    }
+    public void Update_Physics_Attack()
+    {
+        Enemy enemy = _target.GetComponent<Enemy>() as Enemy;
+        enemy.Hit_Physics_Damage(this); 
+    }
+    public void End_Physics_Attack()
+    {
+        anim.Play("Idle_Base");
+        _state = ENTITY_STATE.IDLE;
+    }
 }
