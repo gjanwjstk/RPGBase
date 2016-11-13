@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
-
-//수정일: 2016년 10월 17일-----------//
 
 public class UITarget : MonoBehaviour
 {
-	[SerializeField]
+    //--------------FIELD---------------------//
+    [SerializeField]
 	Player _Player;
 	[SerializeField]
 	GameObject _panel;
@@ -16,8 +14,8 @@ public class UITarget : MonoBehaviour
 	Text _name;
 	[SerializeField]
 	Text _hpText;
-	
-	void Update()
+    //------------EVENTMETHOD-----------------//
+    void Update()
 	{
 		if (_Player == null) return;
 		if (_Player._target != null && _Player._target != _Player)
@@ -32,4 +30,6 @@ public class UITarget : MonoBehaviour
 			_panel.SetActive(false);
 		}
 	}
+    //--------------METHOD--------------------//
+    //------작성자: 201202971 문지환----------//
 }

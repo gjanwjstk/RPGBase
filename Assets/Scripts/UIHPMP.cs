@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class UIHPMP : MonoBehaviour
 {
-	[SerializeField]
+    //--------------FIELD---------------------//
+    [SerializeField]
 	Player _player;
 	[SerializeField]
 	Slider _hp;
@@ -15,8 +14,8 @@ public class UIHPMP : MonoBehaviour
 	Text _hpText;
 	[SerializeField]
 	Text _mpText;
-
-	void Update()
+    //------------EVENTMETHOD-----------------//
+    void Update()
 	{
 		if (_player.transform == null)
 			return;
@@ -26,4 +25,6 @@ public class UIHPMP : MonoBehaviour
 		_mp.value = _player.Mp_Precent();
 		_mpText.text = _player.MP + "/" + _player.MPMax;
 	}
+    //--------------METHOD--------------------//
+    //------작성자: 201202971 문지환----------//
 }

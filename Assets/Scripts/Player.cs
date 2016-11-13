@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
-
-	//수정일: 2016년 10월 17일-----------//
 
 [RequireComponent(typeof(Animator))]
 public class Player : Entity
 {
-	protected override void Recovery()
+    protected override void Recovery()
 	{
 		base.Recovery();
 
@@ -112,7 +109,8 @@ public class Player : Entity
 			return base_mdef + equip_bonus + buff_bonus + attr_bonus;
 		}
 	}
-	[Header("Attribute Points")]
+    //--------------FIELD---------------------//
+    [Header("Attribute Points")]
 	[SerializeField]
 	private int _att_point;
 	public int Att_Point
@@ -152,8 +150,8 @@ public class Player : Entity
 	private Vector3 goal_pos;
 	private GameObject target_portal;
 	private Rigidbody _rigid;
-
-	void OnCollisionEnter(Collision col)
+    //------------EVENTMETHOD-----------------//
+    void OnCollisionEnter(Collision col)
 	{
 		if (target_portal == null)
 			return;
@@ -191,7 +189,8 @@ public class Player : Entity
 		Update_Inputs();
 		Update_Actions();
 	}
-	void Update_Inputs()
+    //--------------METHOD--------------------//
+    void Update_Inputs()
 	{
 		Ray ray;
 		RaycastHit hit;
@@ -337,4 +336,5 @@ public class Player : Entity
         anim.Play("Idle_Base");
         _state = ENTITY_STATE.IDLE;
     }
+    //------작성자: 201202971 문지환-----------//
 }

@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
+
 public class FieldManager : MonoBehaviour
 {
+    //--------------FIELD---------------------//
     [SerializeField]
     GameObject owner_field;
     [SerializeField]
@@ -12,6 +13,7 @@ public class FieldManager : MonoBehaviour
 
     List<Enemy> enemy_list;
     int max_enemy;
+    //------------EVENTMETHOD-----------------//
     void Awake()
     {
         enemy_list = new List<Enemy>();
@@ -23,6 +25,7 @@ public class FieldManager : MonoBehaviour
         }
         InvokeRepeating("Update_FieldEnemy", 1.0f, 5.0f);
     }
+    //--------------METHOD--------------------//
     void Update_FieldEnemy()
     {
         if (enemy_list.Count < max_enemy)
@@ -30,10 +33,23 @@ public class FieldManager : MonoBehaviour
     }
     void Create_Enemy()
     {
-        int enemy_type = Random.Range(0, enemy)
+        int enemy_type = Random.Range(0, enemys.Length);
+        GameObject clone = Instantiate(enemys[enemy_type]) as GameObject;
+        clone.transform.SetParent(transform);
+
+        Enemy enemy = clone.GetComponent<Enemy>() as Enemy;
+        float fX = transform.position.x + Random.Range(- transform.localScale.x * 0.5f + 4.0f, transform.localScale.x * 0.5f - 4.0f);
+        float fZ = transform.position.x + Random.Range(- transform.localScale.z * 0.5f + 4.0f, transform.localScale.z * 0.5f - 4.0f);
+        enemy.Set_Pos(new Vector3(fX, .0f, fZ));
+        enemy.Init(Random.Range((field_level-1)*10+1, field_level*10+1));
+
+        enemy_list.Add(enemy);
     }
     public void Delete_Enemy(Enemy _enemy)
     {
-
+        enemy_list.Remove(_enemy);
+        Destroy(_enemy.gameObject);
     }
+    //------작성자: 201202971 문지환----------//
+
 }

@@ -3,12 +3,14 @@ using System.Collections;
 
 public class Portal : MonoBehaviour
 {
-
-	[SerializeField]
+    //--------------FIELD---------------------//
+    [SerializeField]
 	private Transform to_portal;
-
-	public void Move_To(Player p)
+    //------------EVENTMETHOD-----------------//
+    //--------------METHOD--------------------//
+    public void Move_To(Player p)
 	{
 		p.Set_Pos(to_portal.position);
 	}
+    //------작성자: 201202971 문지환-----------//
 }

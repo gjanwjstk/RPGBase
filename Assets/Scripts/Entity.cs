@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 public abstract class Entity : MonoBehaviour
 {
-	[Header("Target")]
+    //--------------FIELD---------------------//
+    [Header("Target")]
 	public Entity _target;
 
 	[Header("ID/Class/Level/State")]
@@ -105,19 +105,21 @@ public abstract class Entity : MonoBehaviour
 	}
 	public float Hp_Precent() { return (_hp != 0 && HPMax != 0) ? (float)_hp / (float)HPMax : 0.0f; }
 	public float Mp_Precent() { return (_mp != 0 && MPMax != 0) ? (float)_mp / (float)MPMax : 0.0f; }
-
-	public void Init()
+    //------------EVENTMETHOD-----------------//
+    //--------------METHOD--------------------//
+   
+    public void Init()
 	{
-		LevelMax = 99;
-
 		HP = HPMax;
 		MP = MPMax;
+        LevelMax = 99;
 
-		InvokeRepeating("Recovery", 1.0f, 1.0f);
+        InvokeRepeating("Recovery", 1.0f, 1.0f);
 	}
     //특정 시간에 한번씩 반복 호출
     //InvokeRepeating(호출함수명, 최초실행)
     public void Add_Pos(Vector3 p) { transform.position += p; }
     public void Set_Pos(Vector3 p) { transform.position = p; }
     public Vector3 Get_Pos() { return transform.position; }
+    //------작성자: 201202971 문지환----------//
 }

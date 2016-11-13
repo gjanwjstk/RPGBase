@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Enemy : Entity
 {
-	protected override void Recovery()
+    //--------------FIELD---------------------//
+    protected override void Recovery()
 	{
 		base.Recovery();
 
@@ -109,8 +109,8 @@ public class Enemy : Entity
 			return base_mdef + equip_bonus + buff_bonus + attr_bonus;
 		}
 	}
-
-	void Awake()
+    //------------EVENTMETHOD-----------------//
+    void Awake()
 	{
 		base.Init();
 		_state = ENTITY_STATE.IDLE;
@@ -141,6 +141,7 @@ public class Enemy : Entity
     {
         Update_Actions();
     }
+    //--------------METHOD--------------------//
     void Update_Actions()
     {
         switch (_state)
@@ -151,4 +152,20 @@ public class Enemy : Entity
                 break;
         }
     }
+    public void Init(int _level)
+    {
+        _lv = _level;
+
+        Strength += _lv * 5;
+        Intelligence += _lv * 5;
+        Health += _lv * 5;
+        Mana += _lv * 5;
+
+        if (_class == ENTITY_CLASS.MAGE) Intelligence += _lv * 5;
+        if (_class == ENTITY_CLASS.WARRIOR) Strength += _lv * 5;
+
+        HP = HPMax;
+        MP = MPMax;
+    }
+    //------작성자: 201202971 문지환----------//
 }

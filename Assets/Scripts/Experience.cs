@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public class Experience : MonoBehaviour
 {
-	[SerializeField]
+    //--------------FIELD---------------------//
+    [SerializeField]
 	Player _player;
 	[SerializeField]
 	Slider _exp;
 	[SerializeField]
 	Text _expText;
-	void Update()
+    //------------EVENTMETHOD-----------------//
+    void Update()
 	{
 		if (_player.transform == null)
 			return;
@@ -18,4 +19,6 @@ public class Experience : MonoBehaviour
 		_exp.value = _player.Exp_Percent();
 		_expText.text = "Lv." + _player.Level + " (" + (_player.Exp_Percent() * 100.0f).ToString("F2") + "%)";
 	}
+    //--------------METHOD--------------------//
+    //------작성자: 201202971 문지환----------//
 }

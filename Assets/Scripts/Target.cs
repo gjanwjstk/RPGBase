@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Target : MonoBehaviour
 {
+    //--------------FIELD---------------------//
     float start_pos;
     float end_pos;
     bool is_up;
-
+    //------------EVENTMETHOD-----------------//
     void Awake()
     {
         start_pos = 1.5f;
@@ -31,6 +31,7 @@ public class Target : MonoBehaviour
         }
         transform.position = pos;
     }
+    //--------------METHOD--------------------//
     public void Target_On(Vector3 _pos)
     {
         _pos.y = start_pos;
@@ -41,4 +42,5 @@ public class Target : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+    //------작성자: 201202971 문지환----------//
 }

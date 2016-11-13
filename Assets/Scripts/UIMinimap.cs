@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UIMinimap : MonoBehaviour
 {
-	[SerializeField]
+    //--------------FIELD---------------------//
+    [SerializeField]
 	private float zoomMin = 2.0f;
 	[SerializeField]
 	private float zoomMax = 10.0f;
@@ -19,12 +19,13 @@ public class UIMinimap : MonoBehaviour
 	private Button btn_minus;
 	[SerializeField]
 	private Camera minimap_cam;
-	
-	void Update ()
+    //------------EVENTMETHOD-----------------//
+    void Update ()
 	{
 		Level_name.text = SceneManager.GetActiveScene().name;
 	}
-	public void ZoomIn()
+    //--------------METHOD--------------------//
+    public void ZoomIn()
 	{
 		minimap_cam.orthographicSize = Mathf.Max(minimap_cam.orthographicSize - zoom_StepSize, zoomMin);
 	}
@@ -32,4 +33,5 @@ public class UIMinimap : MonoBehaviour
 	{
 		minimap_cam.orthographicSize = Mathf.Max(minimap_cam.orthographicSize - zoom_StepSize, zoomMax);
 	}
+    //------작성자: 201202971 문지환----------//
 }

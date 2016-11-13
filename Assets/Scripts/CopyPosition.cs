@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class CopyPosition : MonoBehaviour
 {
-	public bool x, y, z = false;
+    //--------------FIELD---------------------//
+    public bool x, y, z = false;
 	public Transform target = null;
-	
-	void Update ()
+    //------------EVENTMETHOD-----------------//
+    void Update ()
 	{
 		if (target)
 		{
@@ -17,4 +17,6 @@ public class CopyPosition : MonoBehaviour
 			//x 가 활성화 되어있지 않으면 그냥 카메라의 x값 쓴다
 		}
 	}
+    //--------------METHOD--------------------//
+    //------작성자: 201202971 문지환----------//
 }

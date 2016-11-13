@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+
 public class UIShowToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-	[SerializeField]
+    //--------------FIELD---------------------//
+    [SerializeField]
 	GameObject tooltip_prefab;
 	[TextArea(1, 30)]
 	public string _text = "";
 
 	GameObject current;
-
-	void CreateToolTip()
+    //------------EVENTMETHOD-----------------//
+    //--------------METHOD--------------------//
+    void CreateToolTip()
 	{
 		current = (GameObject)Instantiate(tooltip_prefab, transform.position, Quaternion.identity);
 
@@ -31,4 +33,5 @@ public class UIShowToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 	public void OnPointerExit(PointerEventData d) { DestroyToolTip(); }
 	void OnDisable() { DestroyToolTip(); }
 	void OnDestroy() { DestroyToolTip(); }
+    //------작성자: 201202971 문지환-----------//
 }

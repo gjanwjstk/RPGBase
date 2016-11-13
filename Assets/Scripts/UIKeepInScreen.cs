@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class UIKeepInScreen : MonoBehaviour
 {
-	void Update ()
+    //--------------FIELD---------------------//
+    //------------EVENTMETHOD-----------------//
+    void Update ()
 	{
 		Rect r = GetComponent<RectTransform>().rect;
 
@@ -20,4 +21,6 @@ public class UIKeepInScreen : MonoBehaviour
 
 		transform.position = new Vector2(x, y) + offset;
 	}
+    //--------------METHOD--------------------//
+    //------작성자: 201202971 문지환----------//
 }

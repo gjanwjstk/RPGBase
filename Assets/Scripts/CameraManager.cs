@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class CameraManager : MonoBehaviour
 {
-	[SerializeField]
+    //--------------FIELD---------------------//
+    [SerializeField]
 	private Transform target;
 	private float distance;
 	private float xSpeed, ySpeed;
@@ -25,7 +25,8 @@ public class CameraManager : MonoBehaviour
 		y = angles.x;
 		rotation = Quaternion.Euler(y, x, .0f);
 	}
-	void Update()
+    //------------EVENTMETHOD-----------------//
+    void Update()
 	{
 		if (!target)
 			return;
@@ -58,7 +59,8 @@ public class CameraManager : MonoBehaviour
 			rotation = Quaternion.Euler(y, x, .0f);
 		}
 	}
-	float ClampAngle(float angle, float min, float max)
+    //--------------METHOD--------------------//
+    float ClampAngle(float angle, float min, float max)
 	{
 		if (angle < -360)
 			angle += 360;
@@ -66,4 +68,5 @@ public class CameraManager : MonoBehaviour
 			angle -= 360;
 		return Mathf.Clamp(angle, min, max);
 	}
+    //------작성자: 201202971 문지환----------//
 }
