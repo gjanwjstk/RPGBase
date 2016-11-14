@@ -117,41 +117,52 @@ public class Enemy : Entity
 	}
     [SerializeField]
     Animator anim;
-
+    public Animator Anim { get { return anim; } }
     Target targetMark;
-    public void Hit_Physics_Damage(Player _player)
-    {
-        anim.Play(null);
-        anim.Play("Hit_Front");
-        _state = ENTITY_STATE.HIT;
 
-        HP -= _player.Physice_Damage - Physice_Defense;
-        if (HP <= 0)
-        {
-            _player.Exp += _lv * 30;
-
-            if (targetMark == null)
-                targetMark = GameObject.Find("TargetMark").GetComponent<Target>();
-            targetMark.Target_Off();
-            targetMark.transform.SetParent(null);
-            Destroy(gameObject);
-        }
-    }
-    void Update()
+    public void Set_TargetMarkOff()
     {
-        Update_Actions();
+        if (targetMark == null)
+            targetMark = GameObject.Find("TargetMark").GetComponent<Target>();
+        targetMark.Target_Off();
+        targetMark.transform.SetParent(null);
     }
+
+    StateMachine<Enemy> stateMachine;
+
+    //public void Hit_Physics_Damage(Player _player)
+    //{
+    //    anim.Play(null);
+    //    anim.Play("Hit_Front");
+    //    _state = ENTITY_STATE.HIT;
+
+    //    HP -= _player.Physice_Damage - Physice_Defense;
+    //    if (HP <= 0)
+    //    {
+    //        _player.Exp += _lv * 30;
+
+    //        if (targetMark == null)
+    //            targetMark = GameObject.Find("TargetMark").GetComponent<Target>();
+    //        targetMark.Target_Off();
+    //        targetMark.transform.SetParent(null);
+    //        Destroy(gameObject);
+    //    }
+    //}
+    //void Update()
+    //{
+    //    Update_Actions();
+    //}
     //--------------METHOD--------------------//
-    void Update_Actions()
-    {
-        switch (_state)
-        {
-            case ENTITY_STATE.HIT:
-                if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_Base"))
-                    _state = ENTITY_STATE.IDLE;
-                break;
-        }
-    }
+    //void Update_Actions()
+    //{
+    //    switch (_state)
+    //    {
+    //        case ENTITY_STATE.HIT:
+    //            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_Base"))
+    //                _state = ENTITY_STATE.IDLE;
+    //            break;
+    //    }
+    //}
     public void Init(int _level)
     {
         _lv = _level;
@@ -166,6 +177,27 @@ public class Enemy : Entity
 
         HP = HPMax;
         MP = MPMax;
+
+        stateMachine = new StateMachine<Enemy>();
+        stateMachine.Init(this, Enemy01.States.Wander.Instance);
+    }
+    void Update()
+    {
+        if (stateMachine != null) stateMachine.Excute();
+    }
+    public void ChangeState(State<Enemy> _state)
+    {
+        if (stateMachine != null)
+            stateMachine.ChangeState(_state);
+    }
+    public void RevertPreviousState()
+    {
+        if (stateMachine != null)
+            stateMachine.RevertToPreviousState();
+    }
+    public State<Enemy> GetCurrentState()
+    {
+        return stateMachine.GetcurrentState();
     }
     //------작성자: 201202971 문지환----------//
 }

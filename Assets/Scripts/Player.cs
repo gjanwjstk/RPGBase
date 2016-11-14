@@ -203,6 +203,11 @@ public class Player : Entity
 				var entity = hit.transform.GetComponent<Entity>() as Entity;
 				if (entity && (entity !=this))
                 {
+                    if (entity != null&&entity.GetComponent<Enemy>().GetCurrentState() == Enemy01.States.Die.Instance)
+                    {
+                        _target = null;
+                        return;
+                    }
                     if (_target == entity)
                     {
                         if (Vector3.Distance(_target.Get_Pos(),Get_Pos()) >=0.85f)
@@ -329,7 +334,10 @@ public class Player : Entity
     public void Update_Physics_Attack()
     {
         Enemy enemy = _target.GetComponent<Enemy>() as Enemy;
-        enemy.Hit_Physics_Damage(this); 
+        //enemy.Hit_Physics_Damage(this); 
+        if (enemy._target != this)
+            enemy._target = this;
+        enemy.ChangeState(Enemy01.States.Hit.Instance);
     }
     public void End_Physics_Attack()
     {
