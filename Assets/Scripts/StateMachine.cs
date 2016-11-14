@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-/*
+﻿/*
  * File: StateMachine.cs
  * Desc
  *  : 상태와 연관된 모든 데이터와 메소드들을 캡슐화하여 관리
@@ -18,16 +16,18 @@ public class StateMachine<T> where T : Entity
         owner_entity = _owner;
         current_state = null;
         previous_state = null;
+
+        ChangeState(_state);
     }
-    public void Excute()
+    public void Execute()
     {
         if (current_state != null)
-            current_state.Excute(owner_entity); 
+            current_state.Execute(owner_entity);
     }
     public void ChangeState(State<T> _state)
     {
         if (_state == null) return;
-        if(current_state != null)
+        if (current_state != null)
         {
             current_state.Exit(owner_entity);
             previous_state = current_state;
@@ -39,7 +39,7 @@ public class StateMachine<T> where T : Entity
     {
         ChangeState(previous_state);
     }
-    public State<T> GetcurrentState()
+    public State<T> GetCurrentState()
     {
         return current_state;
     }

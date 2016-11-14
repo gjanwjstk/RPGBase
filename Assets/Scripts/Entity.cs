@@ -81,9 +81,9 @@ public abstract class Entity : MonoBehaviour
 	public abstract int MPRecovery { get; }
 	public abstract int MPMax { get; }
 
-	public abstract int Physice_Damage { get; }
+	public abstract int Physics_Damage { get; }
 	public abstract int Magic_Damage { get; }
-	public abstract int Physice_Defense { get; }
+	public abstract int Physics_Defense { get; }
 	public abstract int Magic_Defense { get; }
 
 	public float move_speed { protected set; get; }
