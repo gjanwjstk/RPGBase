@@ -86,7 +86,7 @@ public abstract class Entity : MonoBehaviour
 	public abstract int Physics_Defense { get; }
 	public abstract int Magic_Defense { get; }
 
-	public float move_speed { protected set; get; }
+	public float move_speed { set; get; }
 
 	protected virtual void Recovery()
 	{

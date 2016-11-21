@@ -152,6 +152,7 @@ public class Enemy : Entity
 
         stateMachine = new StateMachine<Enemy>();
         stateMachine.Init(this, Enemy01.States.Wander.Instance);
+
     }
     void Update()
     {

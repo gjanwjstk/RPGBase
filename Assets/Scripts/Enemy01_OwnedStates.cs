@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Enemy01.States
 {
@@ -146,6 +147,95 @@ namespace Enemy01.States
         }
         public override void Exit(Enemy entity)
         {
+        }
+    }
+    /*
+     * Class : GlobalState
+     * Desc
+     *  : 전역 상태로 현재 진행중인 상태와 별개로 지속적으로 검사를 수행하는 상태
+     */
+     public class GlobalState : State<Enemy>
+    {
+        static readonly GlobalState instance = new GlobalState();
+        public static GlobalState Instance
+        {
+            get { return instance; }
+        }
+        public override void Enter(Enemy entity)
+        {
+        }
+        public override void Execute(Enemy entity)
+        {
+            if (entity._target == null)
+            {
+                //현재는 Target(플레이어)이 한명이지만 여러명일때는 다수를 불러와서
+                Entity targets = GameObject.Find("PC_01").GetComponent<Entity>();
+
+                //반복문을 이용해서 검사
+                float dis = Vector3.Distance(targets.Get_Pos(), entity.Get_Pos());
+
+                if (dis <= 4.0f)
+                {
+                    entity._target = targets;
+                    entity.ChangeState(Pursuit.Instance);
+                }
+            }
+        }
+        public override void Exit(Enemy entity)
+        {
+        }
+    } 
+    /*
+     * Class : Pursuit
+     * Desc
+     * :상태의 소유주(entity)가 어떤 대상(Target)을 쫓아갈 때 행동 정의
+     */
+     public class Pursuit : State<Enemy>
+    {
+        static readonly Pursuit instance = new Pursuit();
+        public static Pursuit Instance
+        {
+            get { return instance; }
+        }
+        public override void Enter(Enemy entity)
+        {
+            entity.move_speed = 2.0f;
+            entity.Anim.Play("Run");
+        }
+        public override void Execute(Enemy entity)
+        {
+            float dis = Vector3.Distance(entity._target.Get_Pos(), entity.Get_Pos());
+
+            //적 추적 범위를 벗어나면 추적 해제
+            if (dis > 6.0f)
+            {
+                entity._target = null;
+                entity.ChangeState(Wander.Instance);
+            }
+            //추적
+            else if (dis> 0.5f)
+            {
+                entity.transform.localRotation = Quaternion.LookRotation(entity._target.Get_Pos() - entity.Get_Pos());
+                Vector3 move_dir = Vector3.Normalize(entity._target.Get_Pos() - entity.Get_Pos());
+                entity.Add_Pos(move_dir * entity.move_speed * Time.deltaTime);
+                Debug.DrawLine(entity.Get_Pos(), entity._target.Get_Pos());
+            }
+            //추적 종료
+            else
+            {
+                if (entity._target != null)
+                {
+                    Debug.Log("공격 상태로 변경");
+                    //entity.ChangeState(Attack.Instance);
+                    entity.ChangeState(Wander.Instance);
+                }
+                else
+                    entity.ChangeState(Wander.Instance);
+            }
+        }
+        public override void Exit(Enemy entity)
+        {
+            entity.move_speed = 0.5f;
         }
     }
 }

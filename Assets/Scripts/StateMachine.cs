@@ -10,12 +10,14 @@ public class StateMachine<T> where T : Entity
     T owner_entity;
     State<T> current_state;
     State<T> previous_state;
+    State<T> global_state;
 
     public void Init(T _owner, State<T> _state)
     {
         owner_entity = _owner;
         current_state = null;
         previous_state = null;
+        global_state = null;
 
         ChangeState(_state);
     }
@@ -23,6 +25,9 @@ public class StateMachine<T> where T : Entity
     {
         if (current_state != null)
             current_state.Execute(owner_entity);
+
+        if (global_state != null)
+            global_state.Execute(owner_entity);
     }
     public void ChangeState(State<T> _state)
     {
@@ -42,5 +47,9 @@ public class StateMachine<T> where T : Entity
     public State<T> GetCurrentState()
     {
         return current_state;
+    }
+    public void Set_GlobalState(State<T> _state)
+    {
+        global_state = _state;
     }
 }
