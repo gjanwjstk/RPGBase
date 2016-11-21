@@ -163,6 +163,8 @@ public class Player : Entity
     private GameObject target_portal;
     private Rigidbody _rigid;
     //------------EVENTMETHOD-----------------//
+
+    bool is_attack_target = false;
     void OnCollisionEnter(Collision col)
     {
         if (target_portal == null)
@@ -222,6 +224,7 @@ public class Player : Entity
                     }
                     if (_target == entity)
                     {
+                        is_attack_target = true;
                         if (Vector3.Distance(_target.Get_Pos(), Get_Pos()) >= 0.85f)
                         {
                             if (Input.GetKey(KeyCode.LeftShift))
@@ -340,8 +343,11 @@ public class Player : Entity
     }
     public void Base_Attack()
     {
+        if (is_attack_target == false) return;
         anim.Play("Attack_Base");
         _state = ENTITY_STATE.ATTACK;
+
+        is_attack_target = false;
     }
     public void Update_Physics_Attack()
     {
@@ -355,6 +361,19 @@ public class Player : Entity
     {
         anim.Play("Idle_Base");
         _state = ENTITY_STATE.IDLE;
+    }
+    public void Hit(Enemy enemy)
+    {
+        if (_state != ENTITY_STATE.MOVE)
+        {
+            anim.Play(null);
+            anim.Play("Hit_Front");
+        }
+        HP -= enemy.Physics_Damage - Physics_Defense;
+        if (HP<= 0)
+        {
+            Debug.Log("캐릭터 사망");
+        }
     }
     //------작성자: 201202971 문지환-----------//
 }

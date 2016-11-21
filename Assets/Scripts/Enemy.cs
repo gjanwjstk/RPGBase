@@ -152,7 +152,7 @@ public class Enemy : Entity
 
         stateMachine = new StateMachine<Enemy>();
         stateMachine.Init(this, Enemy01.States.Wander.Instance);
-
+        stateMachine.Set_GlobalState(Enemy01.States.GlobalState.Instance);
     }
     void Update()
     {
@@ -171,6 +171,12 @@ public class Enemy : Entity
     public State<Enemy> GetCurrentState()
     {
         return stateMachine.GetCurrentState();
+    }
+
+    public int attack_state { set; get; }
+    public void Attack_State(int _state)
+    {
+        attack_state = _state;
     }
     //------작성자: 201202971 문지환----------//
 }

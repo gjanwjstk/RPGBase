@@ -19,6 +19,7 @@ namespace Enemy01.States
         }
         public override void Enter(Enemy entity)
         {
+            entity._target = null;
             UpdateWander(entity);
         }
         public override void Execute(Enemy entity)
@@ -93,7 +94,7 @@ namespace Enemy01.States
         public override void Execute(Enemy entity)
         {
             if (entity.Anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_Base"))
-                entity.RevertToPreviousState();
+                entity.ChangeState(Wander.Instance);
         }
         public override void Exit(Enemy entity)
         {
@@ -224,11 +225,7 @@ namespace Enemy01.States
             else
             {
                 if (entity._target != null)
-                {
-                    Debug.Log("공격 상태로 변경");
-                    //entity.ChangeState(Attack.Instance);
-                    entity.ChangeState(Wander.Instance);
-                }
+                    entity.ChangeState(Attack.Instance);
                 else
                     entity.ChangeState(Wander.Instance);
             }
@@ -238,4 +235,61 @@ namespace Enemy01.States
             entity.move_speed = 0.5f;
         }
     }
+    /*
+     * Class : Attack
+     * Desc
+     *  : 상태의 소유주(entity)가 어떤 대상(Target)을 공격할 때 행동 정의
+     */
+     public class Attack : State<Enemy>
+    {
+        static readonly Attack instance = new Attack();
+        public static Attack Instance
+        {
+            get { return instance; }
+        }
+        public override void Enter(Enemy entity)
+        {
+            entity.Anim.Play(null);
+            entity.Anim.Play("Enemy_Attack");
+            entity.attack_state = 0;
+        }
+        public override void Execute(Enemy entity)
+        {
+            if (entity.attack_state ==1)
+            {
+                entity.attack_state = 0;
+                Update_Physics_Attack(entity);
+            }
+            else if (entity.attack_state ==2)
+            {
+                End_Physics_Attack(entity);
+            }
+        }
+        public override void Exit(Enemy entity)
+        {
+            
+        }
+        void Update_Physics_Attack(Enemy entity)
+        {
+            if (entity._target == null) entity.ChangeState(Wander.Instance);
+
+            Player player = entity._target.GetComponent<Player>() as Player;
+
+            if (player == null) entity.ChangeState(Wander.Instance);
+
+            player.Hit(entity);
+        }
+        void End_Physics_Attack(Enemy entity)
+        {
+            if (entity._target != null)
+            {
+                float dis = Vector3.Distance(entity._target.Get_Pos(), entity.Get_Pos());
+
+                if (dis <= 0.7f) entity.ChangeState(Attack.instance);
+                else entity.ChangeState(Pursuit.Instance);
+            }
+            else entity.ChangeState(Wander.Instance);
+        }
+    }
+    
 }
