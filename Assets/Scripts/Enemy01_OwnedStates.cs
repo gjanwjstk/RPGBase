@@ -85,6 +85,12 @@ namespace Enemy01.States
             entity.Anim.Play(null);
             entity.Anim.Play("Hit_Front");
 
+            int dmg = entity._target.Physics_Damage - entity.Physics_Defense;
+            dmg = Mathf.Clamp(dmg, 1, 99999);
+
+            entity.HP -= dmg;
+            entity.Damage_Popup("" + dmg);
+
             entity.HP -= entity._target.Physics_Damage - entity.Physics_Defense;
             if (entity.HP <= 0)
             {

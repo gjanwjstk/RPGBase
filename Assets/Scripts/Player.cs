@@ -369,11 +369,26 @@ public class Player : Entity
             anim.Play(null);
             anim.Play("Hit_Front");
         }
-        HP -= enemy.Physics_Damage - Physics_Defense;
+
+        int dmg = enemy.Physics_Damage - Physics_Defense;
+        dmg = Mathf.Clamp(dmg, 1, 99999);
+
+        HP -= dmg;
+        Damage_Popup("" + dmg);
+
         if (HP<= 0)
         {
             Debug.Log("캐릭터 사망");
         }
+    }
+    void Damage_Popup(string _dmg)
+    {
+        GameObject clone = Instantiate(damage_popup_prefab) as GameObject;
+
+        Bounds bounds = GetComponent<Collider>().bounds;
+        clone.transform.position = new Vector3(bounds.center.x, bounds.max.y, bounds.center.z);
+
+        clone.GetComponent<TextMesh>().text = _dmg;
     }
     //------작성자: 201202971 문지환-----------//
 }

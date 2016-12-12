@@ -58,6 +58,10 @@ public abstract class Entity : MonoBehaviour
 		set { _mana = Mathf.Clamp(value, 0, value); }
 	}
 
+    [Header("Damage Popup")]
+    [SerializeField]
+    protected GameObject damage_popup_prefab;
+
 	[Header("HP/MP")]
 	[SerializeField]
 	protected bool invincible = false;

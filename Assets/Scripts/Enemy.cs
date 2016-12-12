@@ -178,5 +178,13 @@ public class Enemy : Entity
     {
         attack_state = _state;
     }
-    //------작성자: 201202971 문지환----------//
+    public void Damage_Popup(string _dmg)
+    {
+        GameObject clone = Instantiate(damage_popup_prefab) as GameObject;
+
+        Bounds bounds = GetComponent<Collider>().bounds;
+        clone.transform.position = new Vector3(bounds.center.x, bounds.max.y, bounds.center.z);
+
+        clone.GetComponent<TextMesh>().text = _dmg;
+    }
 }
